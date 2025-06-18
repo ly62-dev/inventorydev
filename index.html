@@ -14,7 +14,8 @@
                 fetch('https://script.google.com/macros/s/AKfycbwsj_6iJ1cspP50qVd0U718r1gXa51G6x_IYvPSZ4Pt9vXuMO0FX14WdLIb2t11OQM/exec', {
                     method: 'POST',
                     mode: 'cors', 
-                    headers: { "Content-Type": "application/json" },
+                    redirect: "follow",
+                    headers: { "Content-Type": "text/plain;charset=utf-8" },
                     body: JSON.stringify({ item, qty, category })
                 })
                 .then(response => {
