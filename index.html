@@ -10,13 +10,20 @@
                 const item = document.getElementById('item').value;
                 const qty = document.getElementById('qty').value;
                 const category = document.getElementById('category').value;
+                const imageFile = document.getElementById('image').files[0];
 
+                // ✅ Convert image to Base64
+                const reader = new FileReader();
+                reader.readAsDataURL(imageFile);
+                reader.onload = function() {
+                const imageData = reader.result.split(",")[1]; // ✅ Remove metadata
+        
                 fetch('https://script.google.com/macros/s/AKfycbypuQpHaqQcpxGs2NvOAiWo9odY5SChw35QI3IcHQnv5sI8UNDndferYd-bP81UsJEg/exec', {
                     method: 'POST',
                     mode: 'cors', 
                     redirect: "follow",
                     headers: { "Content-Type": "text/plain;charset=utf-8" },
-                    body: JSON.stringify({ item, qty, category })
+                    body: JSON.stringify({ item, qty, category, image: imageData})
                 })
                 .then(response => response.json())
                 .then(data => console.log("Success:", data))
@@ -32,6 +39,7 @@
         <input type="text" id="item" placeholder="Item Name" required />
         <input type="number" id="qty" placeholder="Quantity" required />
         <input type="text" id="category" placeholder="Category" required />
+        <input type="file" id="image" accept="image/*" required />
         <button type="submit">Add</button>
     </form>
 </body>
