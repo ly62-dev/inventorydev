@@ -31,7 +31,7 @@
                     method: 'POST',
                     mode: 'cors', 
                     redirect: "follow",
-                    headers: { "Content-Type": "application/json" },
+                    headers: { "Content-Type": "text/plain;charset=utf-8" },
                     body: JSON.stringify({ item, qty, category, images: imagesData }) //Correctly passing all images
                 })
                 .then(response => response.json())
