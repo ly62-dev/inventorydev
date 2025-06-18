@@ -14,7 +14,7 @@
                 fetch('https://script.google.com/macros/s/AKfycbzaQGX242c0-E9F50bSB2RuCKRRhJTG1s_M1qFGfDpg8mZ3suuBYBVixEN4nhegAhI/exec', {
                     method: 'POST',
                     mode: 'cors', // Ensure cross-origin requests
-                    body: JSON.stringify({ item, qty, category }),
+                    body: JSON.stringify({item: "Test Item", qty: 5, category: "Sample"}),
                     headers: { "Content-Type": "application/json" }
                 })
                 .then(response => response.json())
