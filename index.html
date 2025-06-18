@@ -10,15 +10,23 @@
                 const item = document.getElementById('item').value;
                 const qty = document.getElementById('qty').value;
                 const category = document.getElementById('category').value;
-                const imageFile = document.getElementById('image').files[0];
+                const imageFiles = document.getElementById('images').files; // ✅ Supports multiple files
 
-                // ✅ Convert image to Base64
+                let imagesData = []; // Store multiple images
+
+                const readFile = (file) => {
+                return new Promise((resolve) => {
                 const reader = new FileReader();
-                reader.readAsDataURL(imageFile);
-                reader.onload = function() {
-                    const imageData = reader.result.split(",")[1]; // ✅ Remove metadata
+                reader.readAsDataURL(file);
+                reader.onload = () => resolve(reader.result.split(",")[1]); // ✅ Remove metadata
+            });
+    };
+
+            for (let file of imageFiles) {
+                imagesData.push(await readFile(file)); // ✅ Convert each image to Base64
+            }
             
-                    fetch('https://script.google.com/macros/s/AKfycbxWhiOU813_1qhx55kI9si-Cgu4uTD466NHyNjdLOjfPhMDiyNWkXPEjOTyzRLcdk8Z/exec', {
+                    fetch('https://script.google.com/macros/s/AKfycbxi9N1KSDCgN1_Cj4O69NOrTVUewp2DRhiq4nN5uqiFJLLrLyHAp2sYCDHgJ-xMgXgz/exec', {
                         method: 'POST',
                         mode: 'cors', 
                         redirect: "follow",
@@ -40,7 +48,8 @@
         <input type="text" id="item" placeholder="Item Name" required />
         <input type="number" id="qty" placeholder="Quantity" required />
         <input type="text" id="category" placeholder="Category" required />
-        <input type="file" id="image" accept="image/*" required />
+        <input type="file" id="images" accept="image/*" multiple /> <!-- ✅ Allows multiple or single files -->
+
         <button type="submit">Add</button>
     </form>
 </body>
