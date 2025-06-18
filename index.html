@@ -7,8 +7,17 @@
             document.getElementById('inventoryForm').addEventListener('submit', function(e) {
                 e.preventDefault();
                 
-                fetch('https://script.google.com/macros/s/AKfycbxOT47luKRd1FAXaYtRnhFfL3CypFZOS-0wEevYGJs_aF7hsu9A5MRDvLXdsHQWftkE/exec')
-                .then(response => response.text())
+                const item = document.getElementById('item').value;
+                const qty = document.getElementById('qty').value;
+                const category = document.getElementById('category').value;
+
+                fetch('https://script.google.com/macros/s/AKfycbxOT47luKRd1FAXaYtRnhFfL3CypFZOS-0wEevYGJs_aF7hsu9A5MRDvLXdsHQWftkE/exec', {
+                    method: 'POST',
+                    mode: 'cors', 
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ item, qty, category }) // ✅ Sends real form data!
+                })
+                .then(response => response.json()) // ✅ Converts response to JSON
                 .then(data => console.log("Success:", data))
                 .catch(error => console.error("Fetch Error:", error));
             });
@@ -19,7 +28,5 @@
     <h2>Inventory Manager</h2>
     
     <form id="inventoryForm">
-        <button type="submit">Test Fetch</button> <!-- Simplified form for testing -->
-    </form>
-</body>
-</html>
+        <input type="text" id="item" placeholder="Item Name" required />
+        <input
