@@ -2,77 +2,41 @@
 <html>
 <head>
     <title>Inventory Manager</title>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            document.getElementById('inventoryForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const item = document.getElementById('item').value;
+                const qty = document.getElementById('qty').value;
+                const category = document.getElementById('category').value;
+
+                fetch('https://script.google.com/macros/s/AKfycbwCcNfYZUsuA9vPtIVroMESkuKHn_1ubV-SiOEcsu07_dOSjXu55D8kKMQwMRZ0O5SN/exec', {
+                    method: 'POST',
+                    mode: 'cors', // Ensure cross-origin requests
+                    body: JSON.stringify({ item, qty, category }),
+                    headers: { "Content-Type": "application/json" }
+                })
+                .then(response => response.text())
+                .then(data => {
+                    alert("Item added successfully!");
+                    document.getElementById('inventoryForm').reset();
+                })
+                .catch(error => {
+                    alert("Error: " + error);
+                });
+            });
+        });
+    </script>
 </head>
 <body>
-
-    <h2>Add item</h2>
+    <h2>Inventory Manager</h2>
+    
     <form id="inventoryForm">
         <input type="text" id="item" placeholder="Item Name" required />
         <input type="number" id="qty" placeholder="Quantity" required />
         <input type="text" id="category" placeholder="Category" required />
         <button type="submit">Add</button>
     </form>
-    
-    <script>
-        document.getElementById('inventoryForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            const item = document.getElementById('item').value;
-            const qty = document.getElementById('qty').value;
-            const category = document.getElementById('category').value;
-            
-            <!DOCTYPE html>
-<html>
-<head>
-    <title>Inventory Manager</title>
-</head>
-<body>
-
-    <h2>Add item</h2>
-    <form id="inventoryForm">
-        <input type="text" id="item" placeholder="Item Name" required />
-        <input type="number" id="qty" placeholder="Quantity" required />
-        <input type="text" id="category" placeholder="Category" required />
-        <button type="submit">Add</button>
-    </form>
-    
-    <script>
-        document.getElementById('inventoryForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            const item = document.getElementById('item').value;
-            const qty = document.getElementById('qty').value;
-            const category = document.getElementById('category').value;
-            
-            fetch('https://script.google.com/macros/s/AKfycbwCcNfYZUsuA9vPtIVroMESkuKHn_1ubV-SiOEcsu07_dOSjXu55D8kKMQwMRZ0O5SN/exec', {
-				method: 'POST',
-				mode: 'cors', // ✅ Allow cross-origin requests
-				body: JSON.stringify({ item, qty, category }),
-				headers: {
-					"Content-Type": "application/json"
-				}
-			})
-
-            .then(res => res.text())
-            .then(data => {
-                alert("Item added!");
-                document.getElementById('inventoryForm').reset();
-            })
-            .catch(error => {
-                alert("Error: " + error);
-            });
-        });
-    </script>
-</body>
-</html>
-
-            .then(res => res.text())
-            .then(data => {
-                alert("Item added!");
-                document.getElementById('inventoryForm').reset();
-            })
-            .catch(error => {
-                alert("Error: " + error);
-            });
-        });
-    </script>
 </body>
 </html>
