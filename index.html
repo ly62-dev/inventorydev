@@ -10,7 +10,7 @@
                 const item = document.getElementById('item').value;
                 const qty = document.getElementById('qty').value;
                 const category = document.getElementById('category').value;
-                const imageFiles = document.getElementById('images').files; // ✅ Supports multiple files
+                const imageFiles = document.getElementById('images').files; // Supports multiple files
 
                 let imagesData = []; // Store multiple images
 
@@ -18,11 +18,11 @@
                     return new Promise((resolve) => {
                         const reader = new FileReader();
                         reader.readAsDataURL(file);
-                        reader.onload = () => resolve(reader.result.split(",")[1]); // ✅ Remove metadata
+                        reader.onload = () => resolve(reader.result.split(",")[1]); // Remove metadata
                     });
                 };
 
-                // ✅ Loop through all selected files
+                // Loop through all selected files
                 for (let file of imageFiles) {
                     imagesData.push(await readFile(file)); // Convert each image to Base64
                 }
@@ -32,7 +32,7 @@
                     mode: 'cors', 
                     redirect: "follow",
                     headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ item, qty, category, images: imagesData }) // ✅ Correctly passing all images
+                    body: JSON.stringify({ item, qty, category, images: imagesData }) //Correctly passing all images
                 })
                 .then(response => response.json())
                 .then(data => console.log("Success:", data))
@@ -48,7 +48,7 @@
         <input type="text" id="item" placeholder="Item Name" required />
         <input type="number" id="qty" placeholder="Quantity" required />
         <input type="text" id="category" placeholder="Category" required />
-        <input type="file" id="images" accept="image/*" multiple /> <!-- ✅ Allows multiple or single files -->
+        <input type="file" id="images" accept="image/*" multiple />
         <button type="submit">Add</button>
     </form>
 </body>
