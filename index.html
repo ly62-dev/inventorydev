@@ -15,9 +15,12 @@
                     method: 'POST',
                     mode: 'cors', 
                     headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ item, qty, category }) // ✅ Sends real form data!
+                    body: JSON.stringify({ item, qty, category })
                 })
-                .then(response => response.json()) // ✅ Converts response to JSON
+                .then(response => {
+                    if (!response.ok) { throw new Error(`HTTP error! Status: ${response.status}`); }
+                    return response.json();
+                })
                 .then(data => console.log("Success:", data))
                 .catch(error => console.error("Fetch Error:", error));
             });
