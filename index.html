@@ -17,7 +17,7 @@
                     body: JSON.stringify({ item, qty, category }),
                     headers: { "Content-Type": "application/json" }
                 })
-                .then(response => response.text())
+                .then(response => response.json())
                 .then(data => {
                     alert("Item added successfully!");
                     document.getElementById('inventoryForm').reset();
