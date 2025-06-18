@@ -13,18 +13,17 @@
 
                 fetch('https://script.google.com/macros/s/AKfycbxOT47luKRd1FAXaYtRnhFfL3CypFZOS-0wEevYGJs_aF7hsu9A5MRDvLXdsHQWftkE/exec', {
                     method: 'POST',
-                    mode: 'cors', // Ensure cross-origin requests
-                    body: JSON.stringify({item: "Test Item", qty: 5, category: "Sample"}),
-                    headers: { "Content-Type": "application/json" }
+                    mode: 'cors', 
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ item: "Test Item", qty: 5, category: "Sample" })
                 })
-                .then(response => response.json())
-                .then(data => {
-                    alert("Item added successfully!");
-                    document.getElementById('inventoryForm').reset();
+                .then(response => {
+                    if (!response.ok) { throw new Error("Network response was not ok"); }
+                    return response.json();
                 })
-                .catch(error => {
-                    alert("Error: " + error);
-                });
+                .then(data => console.log("Success:", data))
+                .catch(error => console.error("Fetch Error:", error));
+
             });
         });
     </script>
