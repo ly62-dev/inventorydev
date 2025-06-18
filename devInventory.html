@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Inventory Manager</title>
+</head>
+<body>
+
+    <h2>Add item</h2>
+    <form id="inventoryForm">
+        <input type="text" id="item" placeholder="Item Name" required />
+        <input type="number" id="qty" placeholder="Quantity" required />
+        <input type="text" id="category" placeholder="Category" required />
+        <button type="submit">Add</button>
+    </form>
+    
+    <script>
+        document.getElementById('inventoryForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const item = document.getElementById('item').value;
+            const qty = document.getElementById('qty').value;
+            const category = document.getElementById('category').value;
+            
+            fetch('https://script.google.com/macros/s/AKfycbz_t6_Afz491A6Cjp1scyXM8dogbssVeTkcXhqHL4rCYAgpLwf6jAVmg-UWS3TBYyDh/exec', {
+                method: 'POST',
+				mode: 'cors',
+                body: JSON.stringify({ item, qty, category }),
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            })
+            .then(res => res.text())
+            .then(data => {
+                alert("Item added!");
+                document.getElementById('inventoryForm').reset();
+            })
+            .catch(error => {
+                alert("Error: " + error);
+            });
+        });
+    </script>
+</body>
+</html>
