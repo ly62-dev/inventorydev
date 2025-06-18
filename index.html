@@ -16,18 +16,19 @@
                 const reader = new FileReader();
                 reader.readAsDataURL(imageFile);
                 reader.onload = function() {
-                const imageData = reader.result.split(",")[1]; // ✅ Remove metadata
-        
-                fetch('https://script.google.com/macros/s/AKfycbxWhiOU813_1qhx55kI9si-Cgu4uTD466NHyNjdLOjfPhMDiyNWkXPEjOTyzRLcdk8Z/exec', {
-                    method: 'POST',
-                    mode: 'cors', 
-                    redirect: "follow",
-                    headers: { "Content-Type": "text/plain;charset=utf-8" },
-                    body: JSON.stringify({ item, qty, category, image: imageData})
-                })
-                .then(response => response.json())
-                .then(data => console.log("Success:", data))
-                .catch(error => console.error("Fetch Error:", error));
+                    const imageData = reader.result.split(",")[1]; // ✅ Remove metadata
+            
+                    fetch('https://script.google.com/macros/s/AKfycbxWhiOU813_1qhx55kI9si-Cgu4uTD466NHyNjdLOjfPhMDiyNWkXPEjOTyzRLcdk8Z/exec', {
+                        method: 'POST',
+                        mode: 'cors', 
+                        redirect: "follow",
+                        headers: { "Content-Type": "text/plain;charset=utf-8" },
+                        body: JSON.stringify({ item, qty, category, image: imageData})
+                    })
+                    .then(response => response.json())
+                    .then(data => console.log("Success:", data))
+                    .catch(error => console.error("Fetch Error:", error));
+                };
             });
         });
     </script>
