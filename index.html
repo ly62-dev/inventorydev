@@ -4,7 +4,7 @@
     <title>Inventory Manager</title>
     <script>
         document.addEventListener("DOMContentLoaded", function() {
-            document.getElementById('inventoryForm').addEventListener('submit', function(e) {
+            document.getElementById('inventoryForm').addEventListener('submit', async function(e) {
                 e.preventDefault();
                 
                 const item = document.getElementById('item').value;
@@ -15,28 +15,28 @@
                 let imagesData = []; // Store multiple images
 
                 const readFile = (file) => {
-                return new Promise((resolve) => {
-                const reader = new FileReader();
-                reader.readAsDataURL(file);
-                reader.onload = () => resolve(reader.result.split(",")[1]); // ✅ Remove metadata
-            });
-    };
-
-            for (let file of imageFiles) {
-                imagesData.push(await readFile(file)); // ✅ Convert each image to Base64
-            }
-            
-                    fetch('https://script.google.com/macros/s/AKfycbxi9N1KSDCgN1_Cj4O69NOrTVUewp2DRhiq4nN5uqiFJLLrLyHAp2sYCDHgJ-xMgXgz/exec', {
-                        method: 'POST',
-                        mode: 'cors', 
-                        redirect: "follow",
-                        headers: { "Content-Type": "text/plain;charset=utf-8" },
-                        body: JSON.stringify({ item, qty, category, image: imageData})
-                    })
-                    .then(response => response.json())
-                    .then(data => console.log("Success:", data))
-                    .catch(error => console.error("Fetch Error:", error));
+                    return new Promise((resolve) => {
+                        const reader = new FileReader();
+                        reader.readAsDataURL(file);
+                        reader.onload = () => resolve(reader.result.split(",")[1]); // ✅ Remove metadata
+                    });
                 };
+
+                // ✅ Loop through all selected files
+                for (let file of imageFiles) {
+                    imagesData.push(await readFile(file)); // Convert each image to Base64
+                }
+                
+                fetch('https://script.google.com/macros/s/AKfycbxi9N1KSDCgN1_Cj4O69NOrTVUewp2DRhiq4nN5uqiFJLLrLyHAp2sYCDHgJ-xMgXgz/exec', {
+                    method: 'POST',
+                    mode: 'cors', 
+                    redirect: "follow",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ item, qty, category, images: imagesData }) // ✅ Correctly passing all images
+                })
+                .then(response => response.json())
+                .then(data => console.log("Success:", data))
+                .catch(error => console.error("Fetch Error:", error));
             });
         });
     </script>
@@ -47,10 +47,4 @@
     <form id="inventoryForm">
         <input type="text" id="item" placeholder="Item Name" required />
         <input type="number" id="qty" placeholder="Quantity" required />
-        <input type="text" id="category" placeholder="Category" required />
-        <input type="file" id="images" accept="image/*" multiple /> <!-- ✅ Allows multiple or single files -->
-
-        <button type="submit">Add</button>
-    </form>
-</body>
-</html>
+        <input
