@@ -15,7 +15,7 @@
                     method: 'POST',
                     mode: 'cors', 
                     headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ item: "Test Item", qty: 5, category: "Sample" })
+                    body: JSON.stringify({ item, qty, category })
                 })
                 .then(response => {
                     if (!response.ok) { throw new Error("Network response was not ok"); }
